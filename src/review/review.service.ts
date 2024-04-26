@@ -18,7 +18,29 @@ export class ReviewService {
         return await this.reviewModel.findOne(id);
     }
 
-    async getByProductId(productId: FindOneOptions<ProductModel>){
-        return await this.reviewModel.find({where: {productId}});
+    async getByProductId(productId: FindOptionsWhere<ProductModel>){
+        return await this.reviewModel.find({where: {productId: productId}});
+    }
+
+    async getAll() {
+        return await this.reviewModel.find();
+    }
+
+    async delete(id: FindOneOptions<ReviewModel>) {
+        const entityToRemove = await this.get(id);
+        if (entityToRemove){
+            return await this.reviewModel.remove([entityToRemove]);
+        } else {
+            return null;
+        }
+    }
+
+    async deleteByProduct(productId: FindOptionsWhere<ProductModel> ){
+        const entityToRemove = await this.getByProductId(productId);
+        if (entityToRemove){
+            return await this.reviewModel.remove(entityToRemove);
+        } else {
+            return null;
+        }
     }
 }

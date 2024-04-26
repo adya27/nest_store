@@ -3,7 +3,7 @@ import {Entity, Column, PrimaryGeneratedColumn} from 'typeorm';
 @Entity()
 export class ProductModel {
     @PrimaryGeneratedColumn()
-    id: number;
+    id: string;
 
     @Column()
     title: string;
@@ -42,4 +42,7 @@ export class ProductModel {
     characteristics: {
         [key: string]: string
     }
+
+    @Column()
+    createdAt: number
 }

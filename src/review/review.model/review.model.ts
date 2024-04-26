@@ -21,6 +21,7 @@ export class ReviewModel {
     @Column()
     createdAt: Date;
 
+    // noinspection JSUnusedLocalSymbols
     @ManyToOne(type => ProductModel)
     productId: ProductModel;
 }

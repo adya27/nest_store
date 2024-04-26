@@ -1,6 +1,7 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
 export enum TopLevelCategory {
+    // noinspection JSUnusedGlobalSymbols
     Courses,
     Services,
     Books,
