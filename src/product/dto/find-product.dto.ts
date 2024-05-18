@@ -1,6 +1,6 @@
 export class FindProductDto {
-    // noinspection JSUnusedGlobalSymbols
-    category: string;
-    // noinspection JSUnusedGlobalSymbols
-    limit: number;
+  // noinspection JSUnusedGlobalSymbols
+  price: number;
+  // noinspection JSUnusedGlobalSymbols
+  limit: number;
 }

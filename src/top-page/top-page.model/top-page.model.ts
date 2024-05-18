@@ -1,52 +1,50 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum TopLevelCategory {
-    // noinspection JSUnusedGlobalSymbols
-    Courses,
-    Services,
-    Books,
-    Products,
+  // noinspection JSUnusedGlobalSymbols
+  Courses,
+  Services,
+  Books,
+  Products,
 }
 
 @Entity()
 export class TopPageModel {
+  @PrimaryGeneratedColumn()
+  id: string;
 
-    @PrimaryGeneratedColumn()
-    id: string;
+  @Column('text')
+  firstLCategory: TopLevelCategory;
 
-    @Column('text')
-    firstLCategory: TopLevelCategory;
+  @Column()
+  secondCategory: string;
 
-    @Column()
-    secondCategory: string;
+  @Column()
+  title: string;
 
-    @Column()
+  @Column()
+  category: string;
+
+  @Column('json')
+  hh?: {
+    count: number;
+    juniorSalary: number;
+    middleSalary: number;
+    seniorSalary: number;
+  };
+
+  @Column('json')
+  advantages: {
     title: string;
+    description: string;
+  }[];
 
-    @Column()
-    category: string;
+  @Column()
+  seoText: string;
 
-    @Column('json')
-    hh?: {
-        count: number;
-        juniorSalary: number;
-        middleSalary: number;
-        seniorSalary: number;
-    };
+  @Column()
+  tagsTitle: string;
 
-    @Column('json')
-    advantages: {
-        title: string;
-        description: string;
-    }[];
-
-    @Column()
-    seoText: string;
-
-    @Column()
-    tagsTitle: string;
-
-    @Column('text',{array: true})
-    tags: string[];
-
+  @Column('text', { array: true })
+  tags: string[];
 }

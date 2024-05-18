@@ -1,27 +1,33 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import {ProductModel} from "../../product/product.model/product.model";
+import { ProductModel } from '../../product/product.model/product.model';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class ReviewModel {
-    @PrimaryGeneratedColumn()
-    id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    title: string;
+  @Column()
+  title: string;
 
-    @Column()
-    description: string;
+  @Column()
+  description: string;
 
-    @Column()
-    author: string;
+  @Column()
+  author: string;
 
-    @Column()
-    rating: number;
+  @Column()
+  rating: number;
 
-    @Column()
-    createdAt: Date;
+  @Column()
+  createdAt: Date;
 
-    // noinspection JSUnusedLocalSymbols
-    @ManyToOne(type => ProductModel)
-    productId: ProductModel;
+  @ManyToOne(() => ProductModel, (product) => product.id)
+  @JoinColumn({ name: 'productId' })
+  product: ProductModel;
 }
