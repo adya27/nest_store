@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ReviewModel } from './review.model/review.model';
 import { FindOperator, FindOptionsWhere, Repository } from 'typeorm';
+import { CreateReviewDto } from './dto/create-review.dto';
 
 @Injectable()
 export class ReviewService {
@@ -10,9 +11,12 @@ export class ReviewService {
     private readonly reviewModel: Repository<ReviewModel>,
   ) {}
 
-  async create(createReviewDto: Omit<ReviewModel, 'id, createdAt'>) {
-    createReviewDto.createdAt = new Date();
-    const review = this.reviewModel.create(createReviewDto);
+  async create(createReviewDto: CreateReviewDto) {
+    const createdAt = new Date();
+    const review = this.reviewModel.create({
+      ...createReviewDto,
+      createdAt,
+    });
     console.log('review ', review);
     return this.reviewModel.save(review);
   }

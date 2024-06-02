@@ -8,13 +8,15 @@ import { ProductModule } from './product/product.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ProductModel } from './product/product.model/product.model';
-import { AuthModel } from './auth/auth.model/auth.model';
+import { User } from './auth/auth.model/user.model';
 import { ReviewModel } from './review/review.model/review.model';
 import { TopPageModel } from './top-page/top-page.model/top-page.model';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     AuthModule,
     ReviewModule,
     TopPageModule,
@@ -28,7 +30,7 @@ import { TopPageModel } from './top-page/top-page.model/top-page.model';
         username: config.get('USERNAME'),
         password: config.get('PASSWORD'),
         database: config.get('DATABASE'),
-        entities: [ProductModel, AuthModel, ReviewModel, TopPageModel],
+        entities: [ProductModel, User, ReviewModel, TopPageModel],
         synchronize: true,
       }),
       inject: [ConfigService],
