@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
 	gnupg \
 	lsb-release
 
-# Устанавливаем Docker
+# Устанавливаем Docker CLI (но не демон, так как он будет работать на хосте)
 RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
 	sh get-docker.sh && \
 	rm get-docker.sh
@@ -24,9 +24,6 @@ RUN useradd -ms /bin/bash developer && echo "developer ALL=(ALL) NOPASSWD: ALL" 
 # Переходим в контекст пользователя
 USER developer
 WORKDIR /home/developer
-
-# Копируем приложение (если у вас есть)
-# COPY . .
 
 # Указываем команду по умолчанию
 CMD ["bash"]
