@@ -1,6 +1,9 @@
+import { IsNumber } from 'class-validator';
+
 export class FindProductDto {
-  // noinspection JSUnusedGlobalSymbols
+  @IsNumber()
   price: number;
-  // noinspection JSUnusedGlobalSymbols
+
+  @IsNumber()
   limit: number;
 }

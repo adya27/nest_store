@@ -33,16 +33,12 @@ export class AuthService {
   async loginUser(loginUserDto: LoginUserDto) {
     const user = await this.findUser(loginUserDto.email);
     if (!user) {
-      return new BadRequestException(USER_IS_NOT_FOUND);
+      throw new BadRequestException(USER_IS_NOT_FOUND);
     }
     const checked = compare(loginUserDto.password, user.passwordHash);
     if (!checked) {
-      return new BadRequestException(USER_PASSWORD_MISMATCH);
+      throw new BadRequestException(USER_PASSWORD_MISMATCH);
     }
-    console.log('user: ', user);
-    console.log('user typeof: ', typeof user);
-    console.log('{ email: user.email }: ', { email: user.email });
-
     return await this.jwtService.signAsync({ email: user.email });
   }
 

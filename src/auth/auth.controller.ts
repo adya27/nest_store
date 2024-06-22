@@ -15,9 +15,9 @@ import { genSaltSync, hashSync } from 'bcrypt';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('login')
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
+  @Post('login')
   async login(@Body() credentials: LoginUserDto): Promise<any> {
     return this.authService.loginUser(credentials);
   }

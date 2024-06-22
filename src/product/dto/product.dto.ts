@@ -1,28 +1,58 @@
+import { Type } from 'class-transformer';
+import { IsArray, IsNumber, IsString, ValidateNested } from 'class-validator';
+
+class ProductCharacteristicsDto {
+  @IsString()
+  name: string;
+
+  @IsString()
+  value: string;
+}
+
 export class ProductDto {
-  // noinspection JSUnusedGlobalSymbols
+  @IsNumber()
+  id: number;
+
+  @IsString()
   title: string;
-  // noinspection JSUnusedGlobalSymbols
+
+  @IsString()
   image: string;
-  // noinspection JSUnusedGlobalSymbols
+
+  @IsNumber()
   price: number;
-  // noinspection JSUnusedGlobalSymbols
-  oldPrice: number;
-  // noinspection JSUnusedGlobalSymbols
+
+  @IsNumber()
+  oldPrice?: number;
+
+  @IsNumber()
   credit: number;
-  // noinspection JSUnusedGlobalSymbols
-  calculateRating: number;
-  // noinspection JSUnusedGlobalSymbols
+
+  @IsNumber()
+  calculateRating?: number;
+
+  @IsArray()
+  @IsString({ each: true })
   description: string;
-  // noinspection JSUnusedGlobalSymbols
+
+  @IsArray()
+  @IsString({ each: true })
   advantages: string[];
-  // noinspection JSUnusedGlobalSymbols
+
+  @IsArray()
+  @IsString({ each: true })
   disadvantages: string[];
-  // noinspection JSUnusedGlobalSymbols
+
+  @IsArray()
+  @IsString({ each: true })
   categories: string[];
-  // noinspection JSUnusedGlobalSymbols
+
+  @IsArray()
+  @IsString({ each: true })
   tags: string[];
-  // noinspection JSUnusedGlobalSymbols
-  characteristics: {
-    [key: string]: string;
-  };
+
+  @IsArray()
+  @ValidateNested()
+  @Type(() => ProductCharacteristicsDto)
+  characteristics: ProductCharacteristicsDto[];
 }

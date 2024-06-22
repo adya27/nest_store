@@ -1,20 +1,41 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum TopLevelCategory {
-  // noinspection JSUnusedGlobalSymbols
   Courses,
   Services,
   Books,
   Products,
 }
 
+export class Advantages {
+  @Column()
+  title: string;
+
+  @Column()
+  description: string;
+}
+
+export class hh {
+  @Column()
+  count: number;
+
+  @Column()
+  juniorSalary: number;
+
+  @Column()
+  middleSalary: number;
+
+  @Column()
+  seniorSalary: number;
+}
+
 @Entity()
 export class TopPageModel {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column('text')
-  firstLCategory: TopLevelCategory;
+  firstCategory: TopLevelCategory;
 
   @Column()
   secondCategory: string;
@@ -26,18 +47,10 @@ export class TopPageModel {
   category: string;
 
   @Column('json')
-  hh?: {
-    count: number;
-    juniorSalary: number;
-    middleSalary: number;
-    seniorSalary: number;
-  };
+  hh?: hh;
 
   @Column('json')
-  advantages: {
-    title: string;
-    description: string;
-  }[];
+  advantages: Advantages[];
 
   @Column()
   seoText: string;

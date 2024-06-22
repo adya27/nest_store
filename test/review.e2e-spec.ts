@@ -3,9 +3,17 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { ProductModule } from '../src/product/product.module';
+import { LoginUserDto } from 'src/auth/dto/login.user.dto';
 
 let reviewId: number;
+const productId = 4;
 const reviewTitle = 'test';
+const userCred: LoginUserDto = {
+  email: 'mail@mail.com',
+  password: 'string',
+};
+
+let token: string;
 describe('AppController (e2e)', () => {
   let app: INestApplication;
 
@@ -16,6 +24,11 @@ describe('AppController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
+
+    const res = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send(userCred);
+    token = res.text;
   });
 
   it('/review/create (POST)', async () => {
@@ -27,7 +40,7 @@ describe('AppController (e2e)', () => {
         author: 'Andrii Boiadzhi',
         description: 'description',
         rating: 5,
-        product: 4,
+        product: productId,
       })
       .expect(201)
       .then((response) => {
@@ -58,6 +71,17 @@ describe('AppController (e2e)', () => {
         const reviewTitleTest = response.body[0].title;
         expect(reviewTitleTest).toBeDefined();
         expect(reviewTitleTest).toBe(reviewTitle);
+      });
+  });
+
+  it('review/removeByProduct/:productId (DELETE Success)', async () => {
+    return request(app.getHttpServer())
+      .delete(`/review/removeByProduct/${productId}`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+      .then((response) => {
+        console.log('DELETE response body: ', response.body);
+        expect(response.body).toBeDefined();
       });
   });
 

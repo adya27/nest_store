@@ -13,7 +13,7 @@ export class CreateReviewDto {
   author: string;
 
   @IsNumber()
-  @Max(5, { message: 'Привет! Rating must be less than or equal to 5' })
+  @Max(5, { message: 'Rating must be less than or equal to 5' })
   @Min(1)
   rating: number;
 

@@ -1,0 +1,32 @@
+# Используем базовый образ Ubuntu
+FROM ubuntu:20.04
+
+# Устанавливаем необходимые утилиты и обновляем репозитории
+RUN apt-get update && apt-get install -y \
+	curl \
+	git \
+	sudo \
+	gnupg \
+	lsb-release
+
+# Устанавливаем Docker
+RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
+	sh get-docker.sh && \
+	rm get-docker.sh
+
+# Устанавливаем Node.js (в данном примере версия 14.x)
+RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - && \
+	apt-get install -y nodejs
+
+# Создаем пользователя для работы
+RUN useradd -ms /bin/bash developer && echo "developer ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+# Переходим в контекст пользователя
+USER developer
+WORKDIR /home/developer
+
+# Копируем приложение (если у вас есть)
+# COPY . .
+
+# Указываем команду по умолчанию
+CMD ["bash"]

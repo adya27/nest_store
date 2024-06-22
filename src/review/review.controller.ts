@@ -13,9 +13,8 @@ import { ReviewModel } from './review.model/review.model';
 import { ReviewService } from './review.service';
 import { FindOperator, FindOptionsWhere } from 'typeorm';
 import { CreateReviewDto } from './dto/create-review.dto';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-// import { ProductModel } from '../product/product.model/product.model';
-// import { FindOptionsWhere } from 'typeorm';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
+import { UserEmail } from '../decorators/user-email.decorator';
 
 @Controller('review')
 export class ReviewController {
@@ -34,12 +33,13 @@ export class ReviewController {
     return this.reviewService.create(reviewDto);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('byProduct/:productId')
   async getByProduct(
     @Param('productId') productId: number | FindOperator<number>,
+    @UserEmail() email: string,
   ) {
     console.log('-------- getByProduct id ', productId);
+    console.log('email', email);
     return this.reviewService.getByProductId(productId);
   }
 
@@ -49,6 +49,7 @@ export class ReviewController {
     return await this.reviewService.delete(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('removeByProduct/:productId')
   async removeByProduct(
     @Param('productId') productId: number | FindOperator<number>,

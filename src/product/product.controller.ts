@@ -7,20 +7,26 @@ import {
   Param,
   Patch,
   Post,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
-import { ProductModel } from './product.model/product.model';
-import { FindProductDto } from './dto/find-product.dto';
-import { ProductService } from './product.service';
 import { FindOptionsWhere } from 'typeorm';
+import { FindByCategoryDto } from './dto/find-category-product.dto';
+import { FindProductDto } from './dto/find-product.dto';
+import { ProductDto } from './dto/product.dto';
+import { ProductModel } from './product.model/product.model';
+import { ProductService } from './product.service';
+import { FindProduct } from 'src/review/dto/FindProductResponse';
+import { IdValidationPipe } from 'src/pipes/id-validation.pipe';
 
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post('create')
-  async create(@Body() productDto: ProductModel) {
-    productDto.createdAt = new Date();
-    console.log('-------- create product id ', productDto);
+  async create(@Body() productDto: ProductDto) {
+    // productDto.createdAt = new Date();
+    // console.log('-------- create product id ', productDto);
     return await this.productService.create(productDto);
   }
 
@@ -42,6 +48,7 @@ export class ProductController {
     return await this.productService.update(id, productModel);
   }
 
+  @UsePipes(new ValidationPipe())
   @Post('/findByParams')
   @HttpCode(200)
   async findByParams(@Body() findDto: FindProductDto) {
@@ -49,8 +56,15 @@ export class ProductController {
     return await this.productService.findByParams(findDto);
   }
 
+  @Post('/findByCategory')
+  async findByCategory(
+    @Body() findByCategoryDto: FindByCategoryDto,
+  ): Promise<FindProduct[]> {
+    return await this.productService.findByCategory(findByCategoryDto);
+  }
+
   @Get(':id')
-  async get(@Param() id: FindOptionsWhere<ProductModel>) {
+  async get(@Param('id', IdValidationPipe) id: FindOptionsWhere<ProductModel>) {
     console.log('-------- get product id ', id);
     return await this.productService.get(id);
   }

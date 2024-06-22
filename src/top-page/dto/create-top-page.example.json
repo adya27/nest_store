@@ -1,0 +1,21 @@
+{
+  "firstCategory": 1,
+  "secondCategory": "programming",
+  "title": "string title",
+  "category": "string category",
+  "hh": {
+    "count": 1,
+    "juniorSalary": 2,
+    "middleSalary": 3,
+    "seniorSalary": 4
+  },
+  "advantages": [
+    {
+      "title": "title string",
+      "description": "description string"
+    }
+  ],
+  "seoText": "string seoText",
+  "tagsTitle": "string tagsTitle",
+  "tags": ["string tags"]
+}

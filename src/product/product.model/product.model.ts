@@ -1,5 +1,12 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
+class ProductCharacteristics {
+  @Column()
+  name: string;
+  @Column()
+  value: string;
+}
+
 @Entity()
 export class ProductModel {
   @PrimaryGeneratedColumn()
@@ -15,13 +22,13 @@ export class ProductModel {
   price: number;
 
   @Column()
-  oldPrice: number;
+  oldPrice?: number;
 
   @Column()
   credit: number;
 
   @Column()
-  calculateRating: number;
+  calculateRating?: number;
 
   @Column()
   description: string;
@@ -39,10 +46,5 @@ export class ProductModel {
   tags: string[];
 
   @Column('json')
-  characteristics: {
-    [key: string]: string;
-  };
-
-  @Column()
-  createdAt: Date;
+  characteristics: ProductCharacteristics[];
 }
