@@ -9,4 +9,4 @@ services:
     volumes:
       - type: bind
         source: ${PWD}/.env
-        target: /opt/app/.env
+        target: /opt/nest_store/.env
