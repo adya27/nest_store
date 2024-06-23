@@ -1,12 +1,12 @@
 version: '3.8'
 services:
   top-api:
-    image: top-api:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: top-api
     restart: always
     ports:
       - 3000:3000
     volumes:
-      - type: bind
-        source: ${PWD}/.env
-        target: /opt/nest_store/.env
+      - /opt/nest_store/.env:/opt/nest_store/.env:ro
