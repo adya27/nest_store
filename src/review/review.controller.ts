@@ -9,16 +9,20 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ReviewModel } from './review.model/review.model';
-import { ReviewService } from './review.service';
 import { FindOperator, FindOptionsWhere } from 'typeorm';
-import { CreateReviewDto } from './dto/create-review.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { UserEmail } from '../decorators/user-email.decorator';
+import { TelegramService } from '../telegram/telegram.service';
+import { CreateReviewDto } from './dto/create-review.dto';
+import { ReviewModel } from './review.model/review.model';
+import { ReviewService } from './review.service';
 
 @Controller('review')
 export class ReviewController {
-  constructor(private readonly reviewService: ReviewService) {}
+  constructor(
+    private readonly reviewService: ReviewService,
+    private readonly telegramService: TelegramService,
+  ) {}
 
   @Get('getAllReviews')
   async getAll() {
@@ -31,6 +35,14 @@ export class ReviewController {
   async post(@Body() reviewDto: CreateReviewDto) {
     console.log('-------- post id ', reviewDto);
     return this.reviewService.create(reviewDto);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @Post('notify')
+  async notify(@Body() reviewDto: CreateReviewDto) {
+    console.log('-------- notify ', reviewDto);
+    const message = `Name: ${reviewDto.title}\n Description: ${reviewDto.description}`;
+    return this.telegramService.sendMessage(message);
   }
 
   @Get('byProduct/:productId')

@@ -1,3 +1,27 @@
+# version: '3.8'
+# services:
+#   top-api:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     container_name: top-api
+#     restart: always
+#     ports:
+#       - 3000:3000
+#     volumes:
+#       - /opt/nest_store/.env:/opt/nest_store/.env:ro
+
+# version: '3.8'
+# services:
+#   top-api:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     container_name: top-api
+#     restart: always
+#     ports:
+#       - 3000:3000
+
 version: '3.8'
 services:
   top-api:
@@ -8,5 +32,15 @@ services:
     restart: always
     ports:
       - 3000:3000
-    volumes:
-      - /opt/nest_store/.env:/opt/nest_store/.env:ro
+    environment:
+      - DATABASE_HOST=postgres_db
+      - DATABASE_PORT=5432
+      - DATABASE_USERNAME=poll_user
+      - DATABASE_PASSWORD=poll_password
+      - DATABASE_NAME=poll_db
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    external: true

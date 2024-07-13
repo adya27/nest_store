@@ -1,16 +1,19 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
-import { ReviewModule } from './review/review.module';
-import { TopPageModule } from './top-page/top-page.module';
-import { ProductModule } from './product/product.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { ProductModel } from './product/product.model/product.model';
 import { User } from './auth/auth.model/user.model';
+import { AuthModule } from './auth/auth.module';
+import { getTelegramConfig } from './configs/telegram.config';
+import { FilesModule } from './files/files.module';
+import { ProductModel } from './product/product.model/product.model';
+import { ProductModule } from './product/product.module';
 import { ReviewModel } from './review/review.model/review.model';
+import { ReviewModule } from './review/review.module';
+import { TelegramModule } from './telegram/telegram.module';
 import { TopPageModel } from './top-page/top-page.model/top-page.model';
+import { TopPageModule } from './top-page/top-page.module';
 
 @Module({
   imports: [
@@ -33,6 +36,12 @@ import { TopPageModel } from './top-page/top-page.model/top-page.model';
         entities: [ProductModel, User, ReviewModel, TopPageModel],
         synchronize: true,
       }),
+      inject: [ConfigService],
+    }),
+    FilesModule,
+    TelegramModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: getTelegramConfig,
       inject: [ConfigService],
     }),
   ],
